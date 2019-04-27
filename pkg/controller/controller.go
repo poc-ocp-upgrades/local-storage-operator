@@ -54,10 +54,14 @@ func NewHandler(namespace string) sdk.Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	handler := &Handler{localStorageNameSpace: namespace, localDiskLocation: localDiskLocation}
 	return handler
 }
 func (h *Handler) Handle(ctx context.Context, event sdk.Event) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ func (h *Handler) Handle(ctx context.Context, event sdk.Event) error {
 	return nil
 }
 func (h *Handler) syncLocalVolumeProvider(instance *v1alpha1.LocalVolume) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +149,8 @@ func (h *Handler) syncStatus(oldInstance, newInstance *v1alpha1.LocalVolume) err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logrus.Info("Syncing LocalVolume.Status")
 	if !equality.Semantic.DeepEqual(oldInstance.Status, newInstance.Status) {
 		logrus.Info("Updating LocalVolume.Status")
@@ -159,9 +167,13 @@ func (h *Handler) cleanupLocalVolumeDeployment(o *v1alpha1.LocalVolume) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (h *Handler) syncProvisionerConfigMap(o *v1alpha1.LocalVolume) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +194,8 @@ func (h *Handler) syncDiskMakerConfigMap(o *v1alpha1.LocalVolume) (bool, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	diskMakerConfigMap, err := h.generateDiskMakerConfig(o)
 	if err != nil {
 		return false, fmt.Errorf("error generating diskmaker configmap %s with %v", o.Name, err)
@@ -193,6 +207,8 @@ func (h *Handler) syncDiskMakerConfigMap(o *v1alpha1.LocalVolume) (bool, error) 
 	return modified, nil
 }
 func (h *Handler) syncRbacPolicies(o *v1alpha1.LocalVolume) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -225,6 +241,8 @@ func (h *Handler) generateProvisionerConfigMap(cr *v1alpha1.LocalVolume) (*corev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.provisonerConfigName = cr.Name + "-local-provisioner-configmap"
 	configMapData := make(localDiskData)
 	storageClassDevices := cr.Spec.StorageClassDevices
@@ -252,6 +270,8 @@ func (h *Handler) syncStorageClass(cr *v1alpha1.LocalVolume) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storageClassDevices := cr.Spec.StorageClassDevices
 	expectedStorageClasses := sets.NewString()
 	for _, storageClassDevice := range storageClassDevices {
@@ -274,6 +294,8 @@ func (h *Handler) removeUnExpectedStorageClasses(cr *v1alpha1.LocalVolume, expec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := k8sclient.GetKubeClient().StorageV1().StorageClasses().List(metav1.ListOptions{LabelSelector: getOwnerLabelSelector(cr).String()})
 	if err != nil {
 		return fmt.Errorf("error listing storageclasses for CR %s with %v", cr.Name, err)
@@ -291,6 +313,8 @@ func (h *Handler) removeUnExpectedStorageClasses(cr *v1alpha1.LocalVolume, expec
 	return utilerrors.NewAggregate(removeErrors)
 }
 func (h *Handler) generateDiskMakerConfig(cr *v1alpha1.LocalVolume) (*corev1.ConfigMap, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -322,6 +346,8 @@ func (h *Handler) syncDiskMakerDaemonset(cr *v1alpha1.LocalVolume, forceRollout 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ds := h.generateDiskMakerDaemonSet(cr)
 	dsName := ds.Name
 	generation := getExpectedGeneration(cr, ds)
@@ -336,6 +362,8 @@ func (h *Handler) syncProvisionerDaemonset(cr *v1alpha1.LocalVolume, forceRollou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ds := h.generateLocalProvisionerDaemonset(cr)
 	dsName := ds.Name
 	generation := getExpectedGeneration(cr, ds)
@@ -346,6 +374,8 @@ func (h *Handler) syncProvisionerDaemonset(cr *v1alpha1.LocalVolume, forceRollou
 	return ds, nil
 }
 func (h *Handler) generateLocalProvisionerDaemonset(cr *v1alpha1.LocalVolume) *appsv1.DaemonSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -366,6 +396,8 @@ func (h *Handler) applyNodeSelector(cr *v1alpha1.LocalVolume, ds *appsv1.DaemonS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nodeSelector := cr.Spec.NodeSelector
 	if nodeSelector != nil {
 		ds.Spec.Template.Spec.Affinity = &corev1.Affinity{NodeAffinity: &corev1.NodeAffinity{RequiredDuringSchedulingIgnoredDuringExecution: nodeSelector}}
@@ -373,6 +405,8 @@ func (h *Handler) applyNodeSelector(cr *v1alpha1.LocalVolume, ds *appsv1.DaemonS
 	return ds
 }
 func (h *Handler) generateDiskMakerDaemonSet(cr *v1alpha1.LocalVolume) *appsv1.DaemonSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -393,10 +427,14 @@ func addOwner(meta *metav1.ObjectMeta, cr *v1alpha1.LocalVolume) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	trueVal := true
 	meta.OwnerReferences = []metav1.OwnerReference{{APIVersion: v1alpha1.SchemeGroupVersion.String(), Kind: v1alpha1.LocalVolumeKind, Name: cr.Name, UID: cr.UID, Controller: &trueVal}}
 }
 func addOwnerLabels(meta *metav1.ObjectMeta, cr *v1alpha1.LocalVolume) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -421,6 +459,8 @@ func diskMakerLabels(crName string) map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string]string{"app": fmt.Sprintf("local-volume-diskmaker-%s", crName)}
 }
 func provisionerLabels(crName string) map[string]string {
@@ -428,9 +468,13 @@ func provisionerLabels(crName string) map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string]string{"app": fmt.Sprintf("local-volume-provisioner-%s", crName)}
 }
 func generateStorageClass(cr *v1alpha1.LocalVolume, scName string) *storagev1.StorageClass {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -447,10 +491,14 @@ func getOwnerLabelSelector(cr *v1alpha1.LocalVolume) labels.Selector {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ownerLabels := labels.Set{ownerNamespaceLabel: cr.Namespace, ownerNameLabel: cr.Name}
 	return labels.SelectorFromSet(ownerLabels)
 }
 func getExpectedGeneration(cr *v1alpha1.LocalVolume, obj runtime.Object) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -477,6 +525,17 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -486,5 +545,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -60,6 +60,8 @@ func (local *LocalVolume) SetDefaults() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(local.Spec.DiskMakerImageVersion.DiskMakerImage) == 0 {
 		local.Spec.DiskMakerImageVersion = DiskMakerImageVersion{defaultDiskMakerImageVersion}
 	}

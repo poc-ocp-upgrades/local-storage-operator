@@ -12,6 +12,8 @@ func TestCreateDiskMakerConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localStorageProvider := getLocalVolume()
 	handler := getHandler()
 	diskMakerConfigMap, err := handler.generateDiskMakerConfig(localStorageProvider)
@@ -24,6 +26,8 @@ func TestCreateDiskMakerConfig(t *testing.T) {
 	}
 }
 func TestCreateProvisionerConfigMap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -52,9 +56,13 @@ func getLocalVolume() *v1alpha1.LocalVolume {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v1alpha1.LocalVolume{ObjectMeta: metav1.ObjectMeta{Name: "local-disks"}, Spec: v1alpha1.LocalVolumeSpec{StorageClassDevices: []v1alpha1.StorageClassDevice{{StorageClassName: "foo", VolumeMode: v1alpha1.PersistentVolumeFilesystem, FSType: "ext4", DeviceNames: []string{"sda", "sbc"}}}}}
 }
 func getHandler() *Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

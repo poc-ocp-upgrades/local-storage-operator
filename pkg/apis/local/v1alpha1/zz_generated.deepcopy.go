@@ -11,10 +11,14 @@ func (in *DiskMakerImageVersion) DeepCopyInto(out *DiskMakerImageVersion) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *DiskMakerImageVersion) DeepCopy() *DiskMakerImageVersion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -31,10 +35,14 @@ func (in *LocalProvisionerImageVersion) DeepCopyInto(out *LocalProvisionerImageV
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *LocalProvisionerImageVersion) DeepCopy() *LocalProvisionerImageVersion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -51,6 +59,8 @@ func (in *LocalVolume) DeepCopyInto(out *LocalVolume) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
@@ -59,6 +69,8 @@ func (in *LocalVolume) DeepCopyInto(out *LocalVolume) {
 	return
 }
 func (in *LocalVolume) DeepCopy() *LocalVolume {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,12 +87,16 @@ func (in *LocalVolume) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *LocalVolumeList) DeepCopyInto(out *LocalVolumeList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +118,8 @@ func (in *LocalVolumeList) DeepCopy() *LocalVolumeList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -114,12 +132,16 @@ func (in *LocalVolumeList) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *LocalVolumeSpec) DeepCopyInto(out *LocalVolumeSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +168,8 @@ func (in *LocalVolumeSpec) DeepCopy() *LocalVolumeSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -154,6 +178,8 @@ func (in *LocalVolumeSpec) DeepCopy() *LocalVolumeSpec {
 	return out
 }
 func (in *LocalVolumeStatus) DeepCopyInto(out *LocalVolumeStatus) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +209,8 @@ func (in *LocalVolumeStatus) DeepCopy() *LocalVolumeStatus {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -191,6 +219,8 @@ func (in *LocalVolumeStatus) DeepCopy() *LocalVolumeStatus {
 	return out
 }
 func (in *StorageClassDevice) DeepCopyInto(out *StorageClassDevice) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +239,8 @@ func (in *StorageClassDevice) DeepCopyInto(out *StorageClassDevice) {
 	return
 }
 func (in *StorageClassDevice) DeepCopy() *StorageClassDevice {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

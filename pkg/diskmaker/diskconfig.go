@@ -16,6 +16,8 @@ func (d *DiskConfig) ToYAML() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	y, err := yaml.Marshal(d)
 	if err != nil {
 		return "", fmt.Errorf("error marshaling to yaml: %v", err)

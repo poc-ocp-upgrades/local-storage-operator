@@ -24,9 +24,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sdkK8sutil.AddToSDKScheme(AddToScheme)
 }
 func addKnownTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

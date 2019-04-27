@@ -34,12 +34,16 @@ func NewDiskMaker(configLocation, symLinkLocation string) *DiskMaker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &DiskMaker{}
 	t.configLocation = configLocation
 	t.symlinkLocation = symLinkLocation
 	return t
 }
 func (d *DiskMaker) loadConfig() (DiskConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func (d *DiskMaker) loadConfig() (DiskConfig, error) {
 	return diskConfig, nil
 }
 func (d *DiskMaker) Run(stop <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +90,8 @@ func (d *DiskMaker) Run(stop <-chan struct{}) {
 	}
 }
 func (d *DiskMaker) symLinkDisks(diskConfig DiskConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -149,6 +157,8 @@ func (d *DiskMaker) findMatchingDisks(diskConfig DiskConfig, deviceSet sets.Stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	blockDeviceMap := make(map[string][]DiskLocation)
 	addDiskToMap := func(scName, stableDeviceID, diskName string) {
 		deviceArray, ok := blockDeviceMap[scName]
@@ -187,6 +197,8 @@ func (d *DiskMaker) findDeviceByID(deviceID string) (string, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	completeDiskIDPath := fmt.Sprintf("%s/%s", diskByIDPath, deviceID)
 	diskDevPath, err := filepath.EvalSymlinks(completeDiskIDPath)
 	if err != nil {
@@ -196,6 +208,8 @@ func (d *DiskMaker) findDeviceByID(deviceID string) (string, string, error) {
 	return completeDiskIDPath, diskDevName, nil
 }
 func (d *DiskMaker) findStableDeviceID(diskName string, allDisks []string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +231,8 @@ func (d *DiskMaker) findNewDisks(content string) (sets.String, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deviceSet := sets.NewString()
 	deviceLines := strings.Split(content, "\n")
 	for _, deviceLine := range deviceLines {
@@ -229,6 +245,8 @@ func (d *DiskMaker) findNewDisks(content string) (sets.String, error) {
 	return deviceSet, nil
 }
 func hasExactDisk(disks sets.String, device string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

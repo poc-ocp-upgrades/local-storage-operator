@@ -14,6 +14,8 @@ func applyStorageClass(client storageclientv1.StorageClassesGetter, required *st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	existing, err := client.StorageClasses().Get(required.Name, metav1.GetOptions{})
 	if apierrors.IsNotFound(err) {
 		actual, err := client.StorageClasses().Create(required)

@@ -9,6 +9,8 @@ func TestFindMatchingDisk(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d := NewDiskMaker("/tmp/foo", "/mnt/local-storage")
 	deviceSet, err := d.findNewDisks(getData())
 	if err != nil {
@@ -32,6 +34,8 @@ func getData() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return `
 sda
 sda1 /boot
@@ -45,6 +49,8 @@ vde
 vdf`
 }
 func getDeiveIDs() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
