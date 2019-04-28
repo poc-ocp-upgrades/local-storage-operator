@@ -2,13 +2,14 @@ package controller
 
 import (
 	"testing"
-
 	"github.com/ghodss/yaml"
 	"github.com/openshift/local-storage-operator/pkg/apis/local/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestCreateDiskMakerConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localStorageProvider := getLocalVolume()
 	handler := getHandler()
 	diskMakerConfigMap, err := handler.generateDiskMakerConfig(localStorageProvider)
@@ -20,8 +21,9 @@ func TestCreateDiskMakerConfig(t *testing.T) {
 		t.Fatalf("error getting disk maker data %v", diskMakerConfigMap)
 	}
 }
-
 func TestCreateProvisionerConfigMap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localStorageProvider := getLocalVolume()
 	handler := getHandler()
 	provisionerConfigMap, err := handler.generateProvisionerConfigMap(localStorageProvider)
@@ -41,28 +43,13 @@ func TestCreateProvisionerConfigMap(t *testing.T) {
 		t.Errorf("error getting disk configuration")
 	}
 }
-
 func getLocalVolume() *v1alpha1.LocalVolume {
-	return &v1alpha1.LocalVolume{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "local-disks",
-		},
-		Spec: v1alpha1.LocalVolumeSpec{
-			StorageClassDevices: []v1alpha1.StorageClassDevice{
-				{
-					StorageClassName: "foo",
-					VolumeMode:       v1alpha1.PersistentVolumeFilesystem,
-					FSType:           "ext4",
-					DeviceNames:      []string{"sda", "sbc"},
-				},
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &v1alpha1.LocalVolume{ObjectMeta: metav1.ObjectMeta{Name: "local-disks"}, Spec: v1alpha1.LocalVolumeSpec{StorageClassDevices: []v1alpha1.StorageClassDevice{{StorageClassName: "foo", VolumeMode: v1alpha1.PersistentVolumeFilesystem, FSType: "ext4", DeviceNames: []string{"sda", "sbc"}}}}}
 }
-
 func getHandler() *Handler {
-	return &Handler{
-		localStorageNameSpace: "foobar",
-		localDiskLocation:     "/mnt/local-storage",
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &Handler{localStorageNameSpace: "foobar", localDiskLocation: "/mnt/local-storage"}
 }

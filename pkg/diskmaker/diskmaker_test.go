@@ -5,6 +5,8 @@ import (
 )
 
 func TestFindMatchingDisk(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d := NewDiskMaker("/tmp/foo", "/mnt/local-storage")
 	deviceSet, err := d.findNewDisks(getData())
 	if err != nil {
@@ -13,11 +15,7 @@ func TestFindMatchingDisk(t *testing.T) {
 	if len(deviceSet) != 7 {
 		t.Errorf("expected 7 devices got %d", len(deviceSet))
 	}
-	diskConfig := map[string]*Disks{
-		"foo": &Disks{
-			DeviceIDs: []string{"xyz"},
-		},
-	}
+	diskConfig := map[string]*Disks{"foo": &Disks{DeviceIDs: []string{"xyz"}}}
 	allDiskIds := getDeiveIDs()
 	deviceMap, err := d.findMatchingDisks(diskConfig, deviceSet, allDiskIds)
 	if err != nil {
@@ -27,8 +25,9 @@ func TestFindMatchingDisk(t *testing.T) {
 		t.Errorf("expected 0 elements in map got %d", len(deviceMap))
 	}
 }
-
 func getData() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return `
 sda
 sda1 /boot
@@ -41,9 +40,8 @@ vdd
 vde
 vdf`
 }
-
 func getDeiveIDs() []string {
-	return []string{
-		"/dev/disk/by-id/xyz",
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return []string{"/dev/disk/by-id/xyz"}
 }
