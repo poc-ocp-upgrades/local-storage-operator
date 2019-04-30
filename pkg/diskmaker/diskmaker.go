@@ -10,40 +10,36 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
-
 	"github.com/ghodss/yaml"
 	"github.com/sirupsen/logrus"
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
-// DiskMaker is a small utility that reads configmap and
-// creates and symlinks disks in location from which local-storage-provisioner can access.
-// It also ensures that only stable device names are used.
-
 var (
-	checkDuration = 5 * time.Second
-	diskByIDPath  = "/dev/disk/by-id/*"
+	checkDuration	= 5 * time.Second
+	diskByIDPath	= "/dev/disk/by-id/*"
 )
 
 type DiskMaker struct {
-	configLocation  string
-	symlinkLocation string
+	configLocation	string
+	symlinkLocation	string
 }
-
 type DiskLocation struct {
-	diskName string
-	diskID   string
+	diskName	string
+	diskID		string
 }
 
-// DiskMaker returns a new instance of DiskMaker
 func NewDiskMaker(configLocation, symLinkLocation string) *DiskMaker {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &DiskMaker{}
 	t.configLocation = configLocation
 	t.symlinkLocation = symLinkLocation
 	return t
 }
-
 func (d *DiskMaker) loadConfig() (DiskConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	content, err := ioutil.ReadFile(d.configLocation)
 	if err != nil {
@@ -56,18 +52,16 @@ func (d *DiskMaker) loadConfig() (DiskConfig, error) {
 	}
 	return diskConfig, nil
 }
-
-// Run and create disk config
 func (d *DiskMaker) Run(stop <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ticker := time.NewTicker(checkDuration)
 	defer ticker.Stop()
-
 	err := os.MkdirAll(d.symlinkLocation, 0755)
 	if err != nil {
 		logrus.Errorf("error creating local-storage directory %s with %v", d.symlinkLocation, err)
 		os.Exit(-1)
 	}
-
 	for {
 		select {
 		case <-ticker.C:
@@ -83,8 +77,9 @@ func (d *DiskMaker) Run(stop <-chan struct{}) {
 		}
 	}
 }
-
 func (d *DiskMaker) symLinkDisks(diskConfig DiskConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := exec.Command("lsblk", "--list", "-o", "NAME,MOUNTPOINT", "--noheadings")
 	var out bytes.Buffer
 	var err error
@@ -99,30 +94,24 @@ func (d *DiskMaker) symLinkDisks(diskConfig DiskConfig) {
 		logrus.Errorf("error unmrashalling json %v", err)
 		return
 	}
-
 	if len(deviceSet) == 0 {
 		logrus.Infof("unable to find any new disks")
 		return
 	}
-
-	// read all available disks from /dev/disk/by-id/*
 	allDiskIds, err := filepath.Glob(diskByIDPath)
 	if err != nil {
 		logrus.Errorf("error listing disks in /dev/disk/by-id : %v", err)
 		return
 	}
-
 	deviceMap, err := d.findMatchingDisks(diskConfig, deviceSet, allDiskIds)
 	if err != nil {
 		logrus.Errorf("error matching finding disks : %v", err)
 		return
 	}
-
 	if len(deviceMap) == 0 {
 		logrus.Errorf("unable to find any matching disks")
 		return
 	}
-
 	for storageClass, deviceArray := range deviceMap {
 		for _, deviceNameLoction := range deviceArray {
 			symLinkDirPath := path.Join(d.symlinkLocation, storageClass)
@@ -141,19 +130,16 @@ func (d *DiskMaker) symLinkDisks(diskConfig DiskConfig) {
 				logrus.Infof("symlinking to %s to %s", devicePath, symLinkPath)
 				symLinkErr = os.Symlink(devicePath, symLinkPath)
 			}
-
 			if symLinkErr != nil {
 				logrus.Errorf("error creating symlink %s with %v", symLinkPath, err)
 			}
 		}
 	}
-
 }
-
 func (d *DiskMaker) findMatchingDisks(diskConfig DiskConfig, deviceSet sets.String, allDiskIds []string) (map[string][]DiskLocation, error) {
-	// blockDeviceMap is a map of storageclass and device locations
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	blockDeviceMap := make(map[string][]DiskLocation)
-
 	addDiskToMap := func(scName, stableDeviceID, diskName string) {
 		deviceArray, ok := blockDeviceMap[scName]
 		if !ok {
@@ -163,7 +149,6 @@ func (d *DiskMaker) findMatchingDisks(diskConfig DiskConfig, deviceSet sets.Stri
 		blockDeviceMap[scName] = deviceArray
 	}
 	for storageClass, disks := range diskConfig {
-		// handle diskNames
 		for _, diskName := range disks.DiskNames {
 			if hasExactDisk(deviceSet, diskName) {
 				matchedDeviceID, err := d.findStableDeviceID(diskName, allDiskIds)
@@ -176,7 +161,6 @@ func (d *DiskMaker) findMatchingDisks(diskConfig DiskConfig, deviceSet sets.Stri
 				continue
 			}
 		}
-		// handle DeviceIDs
 		for _, deviceID := range disks.DeviceIDs {
 			matchedDeviceID, matchedDiskName, err := d.findDeviceByID(deviceID)
 			if err != nil {
@@ -188,9 +172,9 @@ func (d *DiskMaker) findMatchingDisks(diskConfig DiskConfig, deviceSet sets.Stri
 	}
 	return blockDeviceMap, nil
 }
-
-// findDeviceByID finds device ID and return device name(such as sda, sdb) and complete deviceID path
 func (d *DiskMaker) findDeviceByID(deviceID string) (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	completeDiskIDPath := fmt.Sprintf("%s/%s", diskByIDPath, deviceID)
 	diskDevPath, err := filepath.EvalSymlinks(completeDiskIDPath)
 	if err != nil {
@@ -199,8 +183,9 @@ func (d *DiskMaker) findDeviceByID(deviceID string) (string, string, error) {
 	diskDevName := filepath.Base(diskDevPath)
 	return completeDiskIDPath, diskDevName, nil
 }
-
 func (d *DiskMaker) findStableDeviceID(diskName string, allDisks []string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, diskIDPath := range allDisks {
 		diskDevPath, err := filepath.EvalSymlinks(diskIDPath)
 		if err != nil {
@@ -213,25 +198,23 @@ func (d *DiskMaker) findStableDeviceID(diskName string, allDisks []string) (stri
 	}
 	return "", fmt.Errorf("unable to find ID of disk %s", diskName)
 }
-
 func (d *DiskMaker) findNewDisks(content string) (sets.String, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deviceSet := sets.NewString()
 	deviceLines := strings.Split(content, "\n")
 	for _, deviceLine := range deviceLines {
 		deviceLine := strings.TrimSpace(deviceLine)
 		deviceDetails := strings.Split(deviceLine, " ")
-		// We only consider devices that are not mounted.
-		// TODO: We should also consider checking for device partitions, so as
-		// if a device has partitions then we do not consider the device. We only
-		// consider partitions.
 		if len(deviceDetails) == 1 && len(deviceDetails[0]) > 0 {
 			deviceSet.Insert(deviceDetails[0])
 		}
 	}
 	return deviceSet, nil
 }
-
 func hasExactDisk(disks sets.String, device string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, disk := range disks.List() {
 		if disk == device {
 			return true
